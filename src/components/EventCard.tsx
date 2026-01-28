@@ -68,6 +68,7 @@ export default function EventCard({ event }: { event: any }) {
             <div>
               <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Location</div>
               <div style={{ fontWeight: 600 }}>{event.locationName}</div>
+              <div style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>{event.locationAddress}</div>
               <div style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>{event.locationCity}</div>
             </div>
           </div>

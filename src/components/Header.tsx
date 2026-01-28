@@ -21,7 +21,7 @@ export default function Header() {
       <div className="container" style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '1.5rem', fontWeight: 800 }}>
           <Sparkles className="text-secondary" />
-          <span className='text-black'>Event<span className="text-gradient">Plan</span></span>
+          <span>Event<span className="text-gradient">Plan</span></span>
         </Link>
         
         {/* Simple Nav - Landing Page Only */}

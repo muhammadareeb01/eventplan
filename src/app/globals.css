@@ -1,29 +1,31 @@
 :root {
-  /* Premium Gold & White Palette */
-  --bg-deep: #ffffff;
-  --bg-card: #f8f9fa;
-  --bg-card-hover: #ffffff;
+  /* Premium Black & Gold Palette */
+  --bg-deep: #050505; /* Deep rich black */
+  --bg-card: #141414; /* Dark gray for cards */
+  --bg-card-hover: #1f1f1f;
   
   --primary: #D4AF37; /* Metallic Gold */
   --primary-glow: rgba(212, 175, 55, 0.4);
-  --secondary: #171717; /* Black contrast */
+  --secondary: #ffffff; /* White for icons/secondary */
   --accent: #F5E6CA; /* Light Gold/Cream */
   
-  --text-main: #171717;
-  --text-muted: #525252;
+  --text-main: #ffffff;
+  --text-muted: #a3a3a3;
   
-  --border: #e5e5e5;
+  --border: #333333;
   --border-highlight: #D4AF37;
   
-  /* Gold to Dark Gold Gradient - No Purple */
+  /* Gold Gradient */
   --gradient-main: linear-gradient(135deg, #D4AF37 0%, #8A7428 100%);
-  --gradient-text: linear-gradient(to right, #D4AF37, #B5952F);
-  --gradient-dark: linear-gradient(180deg, rgba(255,255,255,0) 0%, #ffffff 100%);
+  --gradient-text: linear-gradient(to right, #D4AF37, #F5E6CA);
+  --gradient-dark: linear-gradient(180deg, rgba(5,5,5,0) 0%, #050505 100%);
 
   /* Spacing & Layout */
   --container-width: 1280px;
   --header-height: 80px;
   --radius: 12px;
+  
+  --surface-highlight: #1f1f1f;
 }
 
 * {
@@ -178,10 +180,10 @@ h3 { font-size: 1.75rem; }
 .form-input, .form-select {
   width: 100%;
   padding: 0.75rem 1rem;
-  background: #ffffff;
+  background: rgba(255,255,255,0.05); /* Subtle dark transparency */
   border: 1px solid var(--border-highlight);
   border-radius: 8px;
-  color: var(--text-main);
+  color: #ffffff;
   font-family: inherit;
   transition: border-color 0.2s;
 }
