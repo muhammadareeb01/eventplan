@@ -113,10 +113,18 @@ export default function EventCard({ event }: { event: any }) {
                   <Clock size={16} />
               </div>
               <div>
-                  <div style={{ fontSize: '0.9rem', fontWeight: 500 }}>{event.time}</div>
-                  {event.vendorTime && (
-                      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '2px' }}>{event.vendorTime}</div>
-                  )}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                      <div style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-main)' }}>
+                        <span style={{ fontSize: '0.75rem', color: 'var(--primary)', fontWeight: 400, marginRight: '6px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Event:</span>
+                        {event.time}
+                      </div>
+                      {event.vendorTime && (
+                          <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+                             <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', opacity: 0.8, marginRight: '4px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Vendor:</span>
+                             {event.vendorTime}
+                          </div>
+                      )}
+                  </div>
               </div>
             </div>
 

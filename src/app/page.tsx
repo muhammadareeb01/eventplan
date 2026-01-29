@@ -45,6 +45,7 @@ export default async function Home() {
           locationAddress: e.location || "", 
           locationCity: "",
           entryFee: e.price ? `$${e.price}` : "Free",
+          eventPrice: e.price || 0, // Validation for calculation
           imageUrl: e.imageUrl, // Added image URL
           ticketTypes: e.ticketTypes || [],
           featured: false 
