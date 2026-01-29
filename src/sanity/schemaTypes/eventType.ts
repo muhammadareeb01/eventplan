@@ -17,20 +17,7 @@ export const eventType = defineType({
         source: 'name',
       },
     }),
-    defineField({
-        name: 'eventType',
-        title: 'Event Type',
-        type: 'string',
-        options: {
-          list: [
-            {title: 'Concert', value: 'concert'},
-            {title: 'Festival', value: 'festival'},
-            {title: 'Theater', value: 'theater'},
-            {title: 'Sport', value: 'sport'},
-            {title: 'Conference', value: 'conference'},
-          ], 
-        },
-    }),
+
     defineField({
       name: 'date',
       title: 'Date',
@@ -72,6 +59,36 @@ export const eventType = defineType({
       name: 'price',
       title: 'Price',
       type: 'number',
+    }),
+    defineField({
+      name: 'ticketTypes',
+      title: 'Ticket Types',
+      type: 'array',
+      of: [{
+        type: 'object',
+        fields: [
+            defineField({ name: 'type', title: 'Ticket Type', type: 'string', initialValue: 'regular' }), 
+            defineField({ name: 'price', title: 'Price', type: 'number', initialValue: 50 }),
+            defineField({ name: 'availableQuantity', title: 'Total Available Quantity', type: 'number', initialValue: 100 }),
+            defineField({ name: 'sold', title: 'Sold Quantity', type: 'number', initialValue: 0, readOnly: true }),
+        ],
+        preview: {
+            select: {
+                title: 'type',
+                subtitle: 'availableQuantity',
+                sold: 'sold',
+                price: 'price'
+            },
+            prepare({title, subtitle, sold, price}) {
+                const soldCount = sold || 0;
+                const left = (subtitle || 0) - soldCount;
+                return {
+                    title: `${title} ($${price})`,
+                    subtitle: `${soldCount} sold / ${subtitle} total (${left} left)`
+                }
+            }
+        }
+      }]
     }),
   ],
 })

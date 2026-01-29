@@ -33,15 +33,15 @@ export const bookingType = defineType({
     }),
     defineField({
       name: 'tableType',
-      title: 'Table Type',
+      title: 'Table ID',
       type: 'string',
-      options: {
-        list: [
-          {title: 'Regular', value: 'regular'},
-          {title: 'Wall', value: 'wall'},
-          {title: 'Premium', value: 'premium'},
-        ]
-      }
+      description: 'The internal ID of the selected table document'
+    }),
+    defineField({
+      name: 'tableName',
+      title: 'Table Name',
+      type: 'string',
+      description: 'Snapshot of the table name at time of booking'
     }),
     defineField({
       name: 'quantity',

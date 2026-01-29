@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Calendar, MapPin, Clock, Loader2, CheckCircle, ArrowLeft } from 'lucide-react';
-import { createBooking, ensureEventExists } from '@/lib/db';
+import { createBooking, ensureEventExists, getEventAvailability } from '@/lib/db';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import CheckoutForm from './CheckoutForm';
@@ -22,13 +22,15 @@ export default function BookingModal({ isOpen, onClose, event, onSubmit }: Booki
   const [error, setError] = useState('');
   const [clientSecret, setClientSecret] = useState('');
   const [showPayment, setShowPayment] = useState(false);
+  const [availability, setAvailability] = useState<any>(null);
+  const [fetchingAvailability, setFetchingAvailability] = useState(false);
   
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
     date: event.availableDates ? event.availableDates[0] : event.date,
-    tableType: 'regular',
+    tableType: '', // Start empty, will be set to first available ID
     quantity: 1
   });
 
@@ -36,30 +38,61 @@ export default function BookingModal({ isOpen, onClose, event, onSubmit }: Booki
     useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
+      // Fetch availability
+      setFetchingAvailability(true);
+      getEventAvailability(event.id).then(data => {
+          setAvailability(data);
+          setFetchingAvailability(false);
+          
+          // Auto-select first available table ID
+          if (data) {
+             const firstAvailableId = Object.keys(data).find(k => data[k].remaining > 0);
+             if (firstAvailableId) {
+                 setFormData(prev => ({ ...prev, tableType: firstAvailableId }));
+             }
+          }
+      }).catch(err => {
+          console.error("Failed to fetch availability", err);
+          setFetchingAvailability(false);
+      });
     } else {
       document.body.style.overflow = 'unset';
     }
     return () => {
       document.body.style.overflow = 'unset';
     };
-  }, [isOpen]);
+  }, [isOpen, event.id]);
 
   if (!isOpen) return null;
 
-  const tables = {
-    regular: { price: 50, label: 'Regular Table' },
-    wall: { price: 60, label: 'Wall Spot' },
-    premium: { price: 70, label: 'Premium Spot' }
-  };
+  // Default fallback if availability fetch fails or is loading, 
+  // but prefer using availability data if present.
+  const defaultTables = {}; 
 
-  const total = tables[formData.tableType as keyof typeof tables].price * formData.quantity;
+  const tables = availability || defaultTables;
+
+  const currentTable = formData.tableType ? tables[formData.tableType] : null;
+  // If selected type doesn't exist in availability (e.g. data mismatch), fallback.
+  const price = currentTable?.price || 0;
+  const total = price * formData.quantity;
+  const isFullyBooked = currentTable?.remaining <= 0;
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!formData.tableType || !currentTable) {
+        setError("Please select a table type.");
+        return;
+    }
+
     setLoading(true);
     setError('');
 
     try {
+      if (currentTable.remaining < formData.quantity) {
+          throw new Error(`Only ${currentTable.remaining} spots left.`);
+      }
+
       // Lazy Sync: Ensure event exists in Firestore before we try to pay for it
       await ensureEventExists(event);
 
@@ -209,26 +242,38 @@ export default function BookingModal({ isOpen, onClose, event, onSubmit }: Booki
 
           <div className="form-group" style={{ marginBottom: '1rem' }}>
             <label className="form-label" style={{ marginBottom: '0.25rem' }}>Select Table Type</label>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.5rem' }}>
-              {Object.entries(tables).map(([key, details]) => (
-                <div 
-                  key={key}
-                  onClick={() => setFormData({...formData, tableType: key as any})}
-                  style={{ 
-                    border: `1px solid ${formData.tableType === key ? 'var(--primary)' : 'var(--border-highlight)'}`,
-                    background: formData.tableType === key ? 'rgba(212, 175, 55, 0.1)' : 'transparent',
-                    padding: '0.5rem',
-                    borderRadius: '8px',
-                    cursor: 'pointer',
-                    textAlign: 'center',
-                    transition: 'all 0.2s'
-                  }}
-                >
-                  <div style={{ fontSize: '0.8rem', fontWeight: 600 }}>{details.label}</div>
-                  <div style={{ color: 'var(--primary)', fontWeight: 700, fontSize: '0.9rem' }}>${details.price}</div>
+            {Object.keys(tables).length > 0 ? (
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.5rem' }}>
+                {Object.entries(tables).map(([key, details]: [string, any]) => {
+                    const booked = details.remaining <= 0;
+                    return (
+                    <div 
+                    key={key}
+                    onClick={() => !booked && setFormData({...formData, tableType: key as any})}
+                    style={{ 
+                        border: `1px solid ${formData.tableType === key ? 'var(--primary)' : 'var(--border-highlight)'}`,
+                        background: formData.tableType === key ? 'rgba(212, 175, 55, 0.1)' : (booked ? 'rgba(255,255,255,0.05)' : 'transparent'),
+                        padding: '0.5rem',
+                        borderRadius: '8px',
+                        cursor: booked ? 'not-allowed' : 'pointer',
+                        textAlign: 'center',
+                        transition: 'all 0.2s',
+                        opacity: booked ? 0.5 : 1
+                    }}
+                    >
+                    <div style={{ fontSize: '0.8rem', fontWeight: 600 }}>{details.label || key}</div>
+                    <div style={{ color: 'var(--primary)', fontWeight: 700, fontSize: '0.9rem' }}>${details.price}</div>
+                    <div style={{ fontSize: '0.7rem', color: booked ? '#ef4444' : 'var(--text-muted)', marginTop: '0.25rem' }}>
+                        {booked ? 'Fully Booked' : 'Available'}
+                    </div>
+                    </div>
+                )})}
                 </div>
-              ))}
-            </div>
+            ) : (
+                <div style={{ padding: '2rem', textAlign: 'center', background: 'var(--surface-highlight)', borderRadius: '8px', color: 'var(--text-muted)' }}>
+                    {fetchingAvailability ? <Loader2 className="animate-spin" style={{ margin: '0 auto' }} /> : 'No table types configured for this event.'}
+                </div>
+            )}
           </div>
 
           <div className="grid-2" style={{ gap: '1rem', marginBottom: '1rem' }}>

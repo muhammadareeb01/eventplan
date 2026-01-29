@@ -17,7 +17,8 @@ const EVENTS_QUERY = defineQuery(`*[_type == "event"] | order(date asc) {
   time,
   location,
   "imageUrl": image.asset->url,
-  price
+  price,
+  ticketTypes
 }`);
 
 export default async function Home() {
@@ -40,6 +41,7 @@ export default async function Home() {
           locationCity: "",
           entryFee: e.price ? `$${e.price}` : "Free",
           imageUrl: e.imageUrl, // Added image URL
+          ticketTypes: e.ticketTypes || [],
           featured: false 
       };
   }) : staticEventsData;

@@ -15,93 +15,136 @@ export default function EventCard({ event }: { event: any }) {
 
   return (
     <>
-      <div className="card" style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-        {event.featured && (
-          <div style={{ 
-            position: 'absolute', 
-            top: '1rem', 
-            right: '1rem', 
-            background: 'var(--accent)', 
-            padding: '0.25rem 0.75rem', 
-            borderRadius: '20px', 
-            fontSize: '0.75rem', 
-            fontWeight: 700 
-          }}>
-            FEATURED
-          </div>
-        )}
+      <div className="card glass-card hover-glow" style={{ 
+          display: 'flex', 
+          flexDirection: 'column', 
+          height: '100%', 
+          padding: 0, /* Remove default padding to let image bleed */
+          border: '1px solid rgba(255,255,255,0.08)' 
+        }}>
         
-        <div style={{ marginBottom: '1.5rem' }}>
-          {event.imageUrl && (
+        {/* Image Section */}
+        <div className="image-zoom-container" style={{ 
+            position: 'relative', 
+            width: '100%', 
+            height: '240px', 
+            borderBottom: '1px solid rgba(255,255,255,0.05)'
+        }}>
+           {event.featured && (
             <div style={{ 
-              position: 'relative', 
-              width: '100%', 
-              height: 'auto', // Changed from fixed 200px
-              aspectRatio: '16/9', // Optional: Enforces aspect ratio if desired, but 'auto' is safer for full visibility. Let's stick to auto height for the image itself or use aspect-ratio with object-fit contain. 
-              // Actually, best to just let it flow or use contain within the fixed box if they want uniformity.
-              // Given "Correct it", usually means "I want to see the whole image". 
-              marginBottom: '1rem', 
-              borderRadius: '8px', 
-              overflow: 'hidden',
-              background: '#000' // Background for any empty space if using contain
+              position: 'absolute', 
+              top: '1rem', 
+              right: '1rem', 
+              background: 'rgba(5,5,5,0.8)', 
+              color: 'var(--accent)',
+              border: '1px solid var(--primary)',
+              padding: '0.25rem 0.75rem', 
+              borderRadius: '99px', 
+              fontSize: '0.7rem', 
+              fontWeight: 700,
+              zIndex: 10,
+              backdropFilter: 'blur(4px)',
+              letterSpacing: '0.05em'
             }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
+              FEATURED
+            </div>
+          )}
+          {event.imageUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
               <img 
                 src={event.imageUrl} 
                 alt={event.title} 
-                style={{ width: '100%', height: '100%', objectFit: 'contain' }} // Changed cover to contain to prevent cutting
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
               />
-            </div>
+          ) : (
+             <div style={{ width: '100%', height: '100%', background: 'var(--surface-highlight)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-muted)' }}>
+                No Image
+             </div>
           )}
-          <div style={{ color: 'var(--primary)', fontWeight: 700, fontSize: '0.875rem', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
-            Upcoming Event
-          </div>
-          <h3 style={{ fontSize: '1.75rem', marginBottom: '0.75rem', lineHeight: 1.3 }}>{event.title}</h3>
-          <p style={{ color: 'var(--text-muted)', lineHeight: 1.6 }}>{event.description}</p>
+          {/* Overlay Gradient */}
+          <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '80px', background: 'linear-gradient(to top, rgba(5,5,5,0.9), transparent)' }} />
         </div>
 
-        <div style={{ 
-          display: 'grid', 
-          gridTemplateColumns: 'repeat(2, 1fr)', 
-          gap: '1rem', 
-          marginBottom: '2rem',
-          padding: '1.5rem',
-          background: 'rgba(255,255,255,0.03)',
-          borderRadius: '8px'
-        }}>
-          <div style={{ display: 'flex', gap: '0.75rem' }}>
-            <Calendar className="text-secondary" size={20} />
-            <div>
-              <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Date</div>
-              <div style={{ fontWeight: 600 }}>{event.date}</div>
+        {/* Content Section */}
+        <div style={{ padding: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+          
+          <div style={{ marginBottom: 'auto' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                <div style={{ 
+                    color: 'var(--primary)', 
+                    fontWeight: 700, 
+                    fontSize: '0.75rem', 
+                    letterSpacing: '0.1em', 
+                    textTransform: 'uppercase',
+                    background: 'rgba(212, 175, 55, 0.1)',
+                    padding: '0.25rem 0.5rem',
+                    borderRadius: '4px'
+                }}>
+                    Upcoming Event
+                </div>
             </div>
-          </div>
-          <div style={{ display: 'flex', gap: '0.75rem' }}>
-            <Clock className="text-secondary" size={20} />
-            <div>
-              <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Time</div>
-              <div style={{ fontWeight: 600 }}>{event.time}</div>
-            </div>
-          </div>
-          <div style={{ display: 'flex', gap: '0.75rem', gridColumn: 'span 2' }}>
-            <MapPin className="text-secondary" size={20} />
-            <div>
-              <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Location</div>
-              <div style={{ fontWeight: 600 }}>{event.locationName}</div>
-              <div style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>{event.locationAddress}</div>
-              <div style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>{event.locationCity}</div>
-            </div>
-          </div>
-        </div>
 
-        <div style={{ marginTop: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid var(--border)', paddingTop: '1.5rem' }}>
-          <div>
-            <div style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>Entry Fee</div>
-            <div style={{ fontSize: '1.25rem', fontWeight: 700 }}>{event.entryFee}</div>
+            <h3 style={{ fontSize: '1.5rem', marginBottom: '0.75rem', lineHeight: 1.2, fontWeight: 700, letterSpacing: '-0.02em' }}>{event.title}</h3>
+            
+            <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', lineHeight: 1.6, marginBottom: '1.5rem', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                {event.description}
+            </p>
           </div>
-          <button onClick={() => setShowModal(true)} className="btn btn-primary">
-            Reserve Table <ArrowRight size={18} />
-          </button>
+
+          {/* Details Grid */}
+          <div style={{ 
+            display: 'grid', 
+            gap: '1rem', 
+            marginBottom: '1.5rem',
+            padding: '1rem',
+            background: 'rgba(255,255,255,0.03)',
+            borderRadius: '12px',
+            border: '1px solid rgba(255,255,255,0.05)'
+          }}>
+            <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+              <div style={{ color: 'var(--primary)', background: 'rgba(212, 175, 55, 0.1)', padding: '6px', borderRadius: '50%' }}>
+                  <Calendar size={16} />
+              </div>
+              <div style={{ fontSize: '0.9rem', fontWeight: 500 }}>{event.date}</div>
+            </div>
+            
+            <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+               <div style={{ color: 'var(--primary)', background: 'rgba(212, 175, 55, 0.1)', padding: '6px', borderRadius: '50%' }}>
+                  <Clock size={16} />
+              </div>
+              <div style={{ fontSize: '0.9rem', fontWeight: 500 }}>{event.time}</div>
+            </div>
+
+            <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
+              <div style={{ color: 'var(--primary)', background: 'rgba(212, 175, 55, 0.1)', padding: '6px', borderRadius: '50%', marginTop: '2px' }}>
+                  <MapPin size={16} />
+              </div>
+              <div>
+                <div style={{ fontWeight: 500, fontSize: '0.9rem' }}>{event.locationName}</div>
+                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{event.locationCity}</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Footer Action */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '0.5rem' }}>
+            <div>
+              <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Entry</div>
+              <div style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--accent)' }}>{event.entryFee}</div>
+            </div>
+            <button 
+                onClick={() => setShowModal(true)} 
+                className="btn btn-primary"
+                style={{ 
+                    padding: '0.6rem 1.25rem', 
+                    fontSize: '0.9rem',
+                    boxShadow: '0 4px 14px rgba(212, 175, 55, 0.3)'
+                }}
+            >
+              Reserve <ArrowRight size={16} />
+            </button>
+          </div>
+
         </div>
       </div>
 

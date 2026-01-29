@@ -20,7 +20,6 @@ export default function Header() {
     }}>
       <div className="container" style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '1.5rem', fontWeight: 800 }}>
-          <Sparkles className="text-secondary" />
           <span style={{ color: 'white' }}>EventPlan</span>
         </Link>
         
