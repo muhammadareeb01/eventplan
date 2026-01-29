@@ -3,10 +3,10 @@
 import { useEffect, useState, useRef } from 'react';
 
 const stats = [
-  { value: "50+", label: "ANNUAL EVENTS" },
-  { value: "500K+", label: "ACTIVE ATTENDEES" },
-  { value: "$100M+", label: "MARKETPLACE VOLUME" },
-  { value: "50", label: "STATES COVERED" }
+  { value: "24+", label: "Card Shows Hosted Annually" },
+  { value: "170+", label: "Active Vendors" },
+  { value: "31,000+", label: "Total Attendees Across All Events" },
+ 
 ];
 
 export default function StatsBanner() {
