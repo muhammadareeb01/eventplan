@@ -111,8 +111,8 @@ export default async function Home() {
                   <Image 
                     src="/hero-image.jpeg" 
                     alt="Premium Card Event" 
-                    width={800} 
-                    height={800}
+                    width={400} 
+                    height={400}
                     className="hero-video"
                     style={{ borderRadius: '24px', objectFit: 'cover' }}
                     priority
