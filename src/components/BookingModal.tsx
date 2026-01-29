@@ -231,9 +231,12 @@ export default function BookingModal({ isOpen, onClose, event, onSubmit }: Booki
           <form onSubmit={handleFormSubmit} style={{ padding: '1rem 1.5rem' }}>
           <div style={{ marginBottom: '1rem' }}>
             <h4 className="text-gradient" style={{ marginBottom: '0.25rem' }}>{event.title}</h4>
-            <div style={{ display: 'flex', gap: '1rem', color: 'var(--text-muted)', fontSize: '0.875rem' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', color: 'var(--text-muted)', fontSize: '0.875rem' }}>
               <span style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}><Calendar size={14} /> {event.date}</span>
-              <span style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}><MapPin size={14} /> {event.locationAddress}, {event.locationCity}</span>
+              <span style={{ display: 'flex', alignItems: 'start', gap: '0.25rem' }}>
+                <MapPin size={14} style={{ marginTop: '3px', flexShrink: 0 }} /> 
+                <span>{event.locationAddress}, {event.locationCity}</span>
+              </span>
             </div>
           </div>
 
