@@ -129,7 +129,7 @@ export default function EventCard({ event }: { event: any }) {
                       </div>
                       {event.vendorTime && (
                           <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-                             <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', opacity: 0.8, marginRight: '4px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Vendor:</span>
+                             <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', opacity: 0.8, marginRight: '4px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Vendor Setup:</span>
                              {event.vendorTime}
                           </div>
                       )}
