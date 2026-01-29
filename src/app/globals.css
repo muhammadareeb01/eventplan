@@ -277,3 +277,30 @@ h3 { font-size: 1.75rem; }
         display: block !important;
     }
 }
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+@media (min-width: 992px) {
+  .hero-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+  }
+}
+
+.hero-video {
+  width: 100%;
+  height: 600px; /* Reduced height for mobile */
+  display: block;
+  object-fit: cover;
+}
+
+@media (min-width: 768px) {
+  .hero-video {
+    height: 800px;
+  }
+}

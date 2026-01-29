@@ -70,7 +70,7 @@ export default async function Home() {
           <div style={{ position: 'absolute', bottom: '0%', right: '-5%', width: '500px', height: '500px', background: 'radial-gradient(circle, rgba(245,230,202,0.15) 0%, rgba(0,0,0,0) 70%)', borderRadius: '50%', zIndex: -1 }} />
 
           <div className="container">
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4rem', alignItems: 'center' }}>
+            <div className="hero-grid">
               <div className="animate-fade-in">
                 <span style={{ 
                   display: 'inline-block', 
@@ -83,11 +83,11 @@ export default async function Home() {
                   marginBottom: '1.5rem',
                   border: '1px solid var(--border-highlight)'
                 }}>
-                  Please Join Us For The Next Big Event 🚀
+                  Please Join Us For The Next Big Event 
                 </span>
                 <h1 style={{ marginBottom: '1.5rem', lineHeight: '1.1' }}>
                 BST Card Show <br />
-                  {/* <span className="text-gradient">Card & Collectibles Show</span> */}
+          
                 </h1>
                 <p style={{ fontSize: '1.25rem', color: 'var(--text-muted)', marginBottom: '3rem', maxWidth: '500px' }}>
                 Experience over 180 tables of pure nostalgia. From Pokemon to Sports Cards, we bring the best vendors and collectors together. </p>
@@ -111,9 +111,10 @@ export default async function Home() {
                     src="/headerVideo.mp4" 
                     autoPlay 
                     loop 
-                    muted 
+                    
                     playsInline
-                    style={{ width: '100%', height: '50%', display: 'block', objectFit: 'cover' }}
+                    className="hero-video"
+                    style={{ borderRadius: '24px' }}
                   />
                   <div style={{ 
                     position: 'absolute', 
