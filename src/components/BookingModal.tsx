@@ -77,7 +77,8 @@ export default function BookingModal({ isOpen, onClose, event, onSubmit }: Booki
    // User Requirement: Add event fee to total
    const eventFee = event.eventPrice || 0;
    const subtotal = price * formData.quantity;
-   const total = subtotal + eventFee;
+   const total = subtotal; // Exclude eventFee per user request
+
    const isFullyBooked = currentTable?.remaining <= 0;
  
    const handleFormSubmit = async (e: React.FormEvent) => {
@@ -212,7 +213,7 @@ export default function BookingModal({ isOpen, onClose, event, onSubmit }: Booki
                 </div>
                 {eventFee > 0 && (
                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.25rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}>
-                        <span>Event Fee</span>
+                        <span>Entry Fee (Pay at Door)</span>
                         <span>${eventFee}</span>
                     </div>
                 )}
