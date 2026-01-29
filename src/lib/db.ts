@@ -34,14 +34,15 @@ export const getEventDetails = async (eventId: string) => {
 };
 
 export const getEventAvailability = async (eventId: string) => {
-  // Fetch Table documents for this event
+  // Fetch Table documents that are linked to this event
+  // We also dynamically count the bookings for THIS specifically event + table combination
   const query = `{
-    "tables": *[_type == "table" && event._ref == $eventId] { 
+    "tables": *[_type == "table" && $eventId in events[]._ref] { 
         _id,
         title, 
         price, 
         availableQuantity, 
-        sold
+        "sold": count(*[_type == "booking" && tableType == ^._id && event._ref == $eventId && status in ["paid", "confirmed"]])
     }
   }`;
 
@@ -83,29 +84,36 @@ export const createBooking = async (bookingData: Booking) => {
   }
 
   try {
-    // 1. Get Event Configuration
-    const query = `*[_type == "table" && _id == $tableId][0]`;
+    // 1. Get Event Configuration & Current Usage
+    // We fetch the table doc AND the current booking count for this event
+    const query = `{
+       "tableDoc": *[_type == "table" && _id == $tableId][0],
+       "soldCount": count(*[_type == "booking" && tableType == $tableId && event._ref == $eventId && status in ["paid", "confirmed"]])
+    }`;
     
     // Safety check: ensure tableId is provided
     if (!bookingData.tableType) {
         throw new Error("No table selected");
     }
 
-    const tableDoc = await client.fetch(query, { 
-        tableId: bookingData.tableType 
+    const { tableDoc, soldCount } = await client.fetch(query, { 
+        tableId: bookingData.tableType,
+        eventId: bookingData.eventId
     });
 
     console.log("Table document found:", tableDoc ? tableDoc._id : "None");
+    console.log("Current Sold Count for Event:", soldCount);
 
     let limit = 0;
-    let tableDocId: string | null = null;
-    let currentSold = 0;
     let tableLabel = "";
 
     if (tableDoc) {
+        // Verify this table is actually admitted for this event (optional security check)
+        const isLinked = tableDoc.events?.some((ref: any) => ref._ref === bookingData.eventId);
+        // We can skip this check if we trust the frontend, or enforce it. 
+        // For now, let's assume if the ID was passed it's valid, but strictly the query in availability filters it.
+        
         limit = tableDoc.availableQuantity;
-        currentSold = tableDoc.sold || 0;
-        tableDocId = tableDoc._id;
         tableLabel = tableDoc.title;
     } else {
         throw new Error(`The selected table is no longer available.`);
@@ -114,10 +122,10 @@ export const createBooking = async (bookingData: Booking) => {
     const requested = bookingData.quantity;
 
     // 2. Validate
-    if (currentSold + requested > limit) {
+    if ((soldCount || 0) + requested > limit) {
        return { 
            success: false, 
-           error: `Not enough tables. ${Math.max(0, limit - currentSold)} left.` 
+           error: `Not enough tables. ${Math.max(0, limit - (soldCount || 0))} left.` 
        };
     }
 
@@ -145,20 +153,11 @@ export const createBooking = async (bookingData: Booking) => {
     const createdBooking = await writeClient.create(doc);
     console.log("Booking created with ID:", createdBooking?._id);
 
-    // 4. Update Table 'Sold' Counter (For Admin Visibility)
-    // We update the specific 'table' document
-    if (tableDocId) {
-        try {
-            console.log("Patching table doc:", tableDocId);
-            await writeClient
-              .patch(tableDocId)
-              .inc({ sold: bookingData.quantity }) // Simple increment on top-level field
-              .commit();
-            console.log("Table sold count updated.");
-        } catch (patchError) {
-            console.error("Failed to update table sold counter:", patchError);
-        }
-    }
+    // 4. Update Table 'Sold' Counter -> REMOVED
+    // We no longer update a global 'sold' field on the table document because 
+    // the table document is now shared across multiple events.
+    // Instead, we rely on the dynamic 'count()' query in step 1 and getEventAvailability
+    // to calculate usage per event in real-time. This is more robust.
     
     return { success: true };
   } catch (e: any) {

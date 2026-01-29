@@ -12,10 +12,11 @@ export const tableType = defineType({
       description: 'e.g., Regular Table for Pokemon Event',
     }),
     defineField({
-      name: 'event',
-      title: 'Event',
-      type: 'reference',
-      to: [{type: 'event'}],
+      name: 'events',
+      title: 'Events',
+      description: 'Select one or more events that this table option applies to.',
+      type: 'array',
+      of: [{type: 'reference', to: {type: 'event'}}],
       validation: Rule => Rule.required()
     }),
     defineField({
@@ -41,16 +42,17 @@ export const tableType = defineType({
   preview: {
     select: {
       title: 'title',
-      event: 'event.name',
+      events: 'events',
       price: 'price',
       available: 'availableQuantity',
       sold: 'sold'
     },
     prepare(selection) {
-        const {title, event, price, available, sold} = selection
+        const {title, events, price, available, sold} = selection
+        const eventCount = events ? events.length : 0;
         return {
-          title: `${event || 'Unknown'} - ${title}`,
-          subtitle: `$${price} | ${sold || 0}/${available} sold`,
+          title: `${title}`,
+          subtitle: `$${price} | Used in ${eventCount} Event(s) | Capacity: ${available}`,
         }
     }
   }
