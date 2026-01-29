@@ -9,6 +9,9 @@ import { Star, Shield, Zap } from 'lucide-react';
 import { client } from '@/sanity/lib/client';
 import { defineQuery } from 'next-sanity';
 
+export const revalidate = 0; // Force revalidation on every request (or use 60 for 1 minute)
+// export const dynamic = 'force-dynamic'; // Alternative if revalidate 0 doesn't work well on Vercel for you
+
 const EVENTS_QUERY = defineQuery(`*[_type == "event"] | order(date asc) {
   _id,
   name,
