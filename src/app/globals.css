@@ -264,3 +264,16 @@ h3 { font-size: 1.75rem; }
     display: none;
   }
 }
+
+/* Stats Banner Animations */
+@keyframes shine {
+    0% { left: -100%; }
+    20% { left: 200%; }
+    100% { left: 200%; }
+}
+
+@media (min-width: 768px) {
+    .desktop-divider {
+        display: block !important;
+    }
+}

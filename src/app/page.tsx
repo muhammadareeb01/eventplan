@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import EventCard from '@/components/EventCard';
+import StatsBanner from '@/components/StatsBanner';
 import ClientSeeder from '@/components/ClientSeeder';
 import { eventsData as staticEventsData } from '@/lib/data';
 import { Star, Shield, Zap } from 'lucide-react';
@@ -125,8 +126,10 @@ export default async function Home() {
           </div>
         </section>
 
+        <StatsBanner />
+
         {/* Stats / Trust */}
-        <div className="container" style={{ margin: '2rem auto' }}>
+        <div className="container" style={{ margin: '4rem auto 2rem auto' }}>
           <div style={{ 
             display: 'grid', 
             gridTemplateColumns: 'repeat(3, 1fr)', 

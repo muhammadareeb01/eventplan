@@ -30,7 +30,7 @@ export default function Header() {
         
         {/* Simple Nav - Landing Page Only */}
         <nav className="desktop-nav">
-          <Link href="#events" style={{ color: 'var(--text-muted)', fontSize: '0.95rem', fontWeight: 500, transition: 'color 0.2s' }}>
+          <Link href="#events" style={{ color: 'white', fontSize: '0.95rem', fontWeight: 500, transition: 'color 0.2s' }}>
             Events
           </Link>
           <a href="#events" className="btn btn-primary" style={{ padding: '0.5rem 1.25rem' }}>
