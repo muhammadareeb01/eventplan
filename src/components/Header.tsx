@@ -19,8 +19,13 @@ export default function Header() {
       height: 'var(--header-height)'
     }}>
       <div className="container" style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '1.5rem', fontWeight: 800 }}>
-          <span style={{ color: 'white' }}>EventPlan</span>
+        <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img 
+            src="/logo.jpeg" 
+            alt="EventPlan Logo" 
+            style={{ height: '50px', width: 'auto', borderRadius: '8px' }} 
+          />
         </Link>
         
         {/* Simple Nav - Landing Page Only */}

@@ -6,7 +6,14 @@ export default function Footer() {
       <div className="container">
         <div className="grid-2" style={{ gap: '4rem' }}>
           <div>
-            <h3 style={{ marginBottom: '1rem' }}>Event<span className="text-gradient">Plan</span></h3>
+            <div style={{ marginBottom: '1rem' }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img 
+                src="/logo.jpeg" 
+                alt="EventPlan Logo" 
+                style={{ height: '60px', width: 'auto', borderRadius: '8px' }} 
+              />
+            </div>
             <p style={{ color: 'var(--text-muted)', lineHeight: '1.6', maxWidth: '400px' }}>
               Premium trading card and collectibles events across the Midwest. 
               Join thousands of collectors for unforgettable experiences.

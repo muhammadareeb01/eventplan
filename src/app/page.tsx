@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import Image from 'next/image';
+
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import EventCard from '@/components/EventCard';
@@ -85,12 +85,11 @@ export default async function Home() {
                   Please Join Us For The Next Big Event 🚀
                 </span>
                 <h1 style={{ marginBottom: '1.5rem', lineHeight: '1.1' }}>
-                  The Midwest's Premier <br />
-                  <span className="text-gradient">Card & Collectibles Show</span>
+                BST Card Show <br />
+                  {/* <span className="text-gradient">Card & Collectibles Show</span> */}
                 </h1>
                 <p style={{ fontSize: '1.25rem', color: 'var(--text-muted)', marginBottom: '3rem', maxWidth: '500px' }}>
-                  Experience over 150 tables of pure nostalgia. From Pokemon to Sports Cards, we bring the best vendors and collectors together.
-                </p>
+                Experience over 180 tables of pure nostalgia. From Pokemon to Sports Cards, we bring the best vendors and collectors together. </p>
                 
                 <div style={{ display: 'flex', gap: '1rem' }}>
                   <a href="#events" className="btn btn-primary">
@@ -107,13 +106,13 @@ export default async function Home() {
                   border: '1px solid rgba(255,255,255,0.1)',
                   boxShadow: '0 20px 50px -10px rgba(0,0,0,0.5)'
                 }}>
-                  <Image 
-                    src="/hero-image.png" 
-                    alt="Premium Card Event" 
-                    width={800} 
-                    height={600} 
-                    style={{ width: '100%', height: 'auto', display: 'block' }}
-                    priority
+                  <video 
+                    src="/headerVideo.mp4" 
+                    autoPlay 
+                    loop 
+                    muted 
+                    playsInline
+                    style={{ width: '100%', height: '50%', display: 'block', objectFit: 'cover' }}
                   />
                   <div style={{ 
                     position: 'absolute', 

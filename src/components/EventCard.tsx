@@ -15,13 +15,18 @@ export default function EventCard({ event }: { event: any }) {
 
   return (
     <>
-      <div className="card glass-card hover-glow" style={{ 
+      <div 
+        className="card glass-card hover-glow animate-fade-in" 
+        style={{ 
           display: 'flex', 
           flexDirection: 'column', 
           height: '100%', 
-          padding: 0, /* Remove default padding to let image bleed */
-          border: '1px solid rgba(255,255,255,0.08)' 
-        }}>
+          padding: 0, 
+          border: '1px solid rgba(212, 175, 55, 0.15)',
+          background: 'linear-gradient(180deg, rgba(20,20,20,0.7) 0%, rgba(10,10,10,0.9) 100%)',
+          textAlign: 'center'
+        }}
+      >
         
         {/* Image Section */}
         <div className="image-zoom-container" style={{ 
@@ -44,7 +49,8 @@ export default function EventCard({ event }: { event: any }) {
               fontWeight: 700,
               zIndex: 10,
               backdropFilter: 'blur(4px)',
-              letterSpacing: '0.05em'
+              letterSpacing: '0.05em',
+              boxShadow: '0 0 15px rgba(212, 175, 55, 0.2)'
             }}>
               FEATURED
             </div>
@@ -62,54 +68,57 @@ export default function EventCard({ event }: { event: any }) {
              </div>
           )}
           {/* Overlay Gradient */}
-          <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '80px', background: 'linear-gradient(to top, rgba(5,5,5,0.9), transparent)' }} />
+          <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '100px', background: 'linear-gradient(to top, rgba(5,5,5,1), transparent)' }} />
         </div>
 
         {/* Content Section */}
-        <div style={{ padding: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+        <div style={{ padding: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           
-          <div style={{ marginBottom: 'auto' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+          <div style={{ marginBottom: 'auto', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <div style={{ marginBottom: '0.75rem', display: 'flex', justifyContent: 'center' }}>
                 <div style={{ 
                     color: 'var(--primary)', 
                     fontWeight: 700, 
-                    fontSize: '0.75rem', 
-                    letterSpacing: '0.1em', 
+                    fontSize: '0.7rem', 
+                    letterSpacing: '0.15em', 
                     textTransform: 'uppercase',
-                    background: 'rgba(212, 175, 55, 0.1)',
-                    padding: '0.25rem 0.5rem',
-                    borderRadius: '4px'
+                    background: 'rgba(212, 175, 55, 0.08)',
+                    padding: '0.35rem 0.85rem',
+                    borderRadius: '50px',
+                    border: '1px solid rgba(212, 175, 55, 0.2)'
                 }}>
                     Upcoming Event
                 </div>
             </div>
 
-            <h3 style={{ fontSize: '1.5rem', marginBottom: '0.75rem', lineHeight: 1.2, fontWeight: 700, letterSpacing: '-0.02em' }}>{event.title}</h3>
+            <h3 style={{ fontSize: '1.6rem', marginBottom: '0.75rem', lineHeight: 1.2, fontWeight: 700, letterSpacing: '-0.02em', color: 'var(--text-main)' }}>{event.title}</h3>
             
-            <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', lineHeight: 1.6, marginBottom: '1.5rem', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+            <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', lineHeight: 1.6, marginBottom: '1.5rem', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', maxWidth: '90%' }}>
                 {event.description}
             </p>
           </div>
 
           {/* Details Grid */}
           <div style={{ 
+            width: '100%',
             display: 'grid', 
             gap: '1rem', 
             marginBottom: '1.5rem',
-            padding: '1rem',
-            background: 'rgba(255,255,255,0.03)',
-            borderRadius: '12px',
-            border: '1px solid rgba(255,255,255,0.05)'
+            padding: '1.25rem',
+            background: 'rgba(255,255,255,0.02)',
+            borderRadius: '16px',
+            border: '1px solid rgba(255,255,255,0.05)',
+            textAlign: 'left' // Keep details left aligned for readability
           }}>
-            <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
-              <div style={{ color: 'var(--primary)', background: 'rgba(212, 175, 55, 0.1)', padding: '6px', borderRadius: '50%' }}>
+            <div style={{ display: 'flex', gap: '0.85rem', alignItems: 'center' }}>
+              <div style={{ color: 'var(--primary)', background: 'rgba(212, 175, 55, 0.1)', padding: '8px', borderRadius: '50%', boxShadow: '0 0 10px rgba(212, 175, 55, 0.05)' }}>
                   <Calendar size={16} />
               </div>
               <div style={{ fontSize: '0.9rem', fontWeight: 500 }}>{event.date}</div>
             </div>
             
-            <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
-               <div style={{ color: 'var(--primary)', background: 'rgba(212, 175, 55, 0.1)', padding: '6px', borderRadius: '50%' }}>
+            <div style={{ display: 'flex', gap: '0.85rem', alignItems: 'center' }}>
+               <div style={{ color: 'var(--primary)', background: 'rgba(212, 175, 55, 0.1)', padding: '8px', borderRadius: '50%', boxShadow: '0 0 10px rgba(212, 175, 55, 0.05)' }}>
                   <Clock size={16} />
               </div>
               <div>
@@ -128,8 +137,8 @@ export default function EventCard({ event }: { event: any }) {
               </div>
             </div>
 
-            <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
-              <div style={{ color: 'var(--primary)', background: 'rgba(212, 175, 55, 0.1)', padding: '6px', borderRadius: '50%', marginTop: '2px' }}>
+            <div style={{ display: 'flex', gap: '0.85rem', alignItems: 'flex-start' }}>
+              <div style={{ color: 'var(--primary)', background: 'rgba(212, 175, 55, 0.1)', padding: '8px', borderRadius: '50%', marginTop: '2px', boxShadow: '0 0 10px rgba(212, 175, 55, 0.05)' }}>
                   <MapPin size={16} />
               </div>
               <div>
@@ -140,21 +149,22 @@ export default function EventCard({ event }: { event: any }) {
           </div>
 
           {/* Footer Action */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '0.5rem' }}>
-            <div>
-              <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Entry</div>
-              <div style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--accent)' }}>{event.entryFee}</div>
+          <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '0.5rem', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '1rem' }}>
+            <div style={{ textAlign: 'left' }}>
+              <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '4px' }}>Entry</div>
+              <div style={{ fontSize: '1.4rem', fontWeight: 700, color: 'var(--accent)', textShadow: '0 0 10px rgba(245, 230, 202, 0.2)' }}>{event.entryFee}</div>
             </div>
             <button 
                 onClick={() => setShowModal(true)} 
                 className="btn btn-primary"
                 style={{ 
-                    padding: '0.6rem 1.25rem', 
+                    padding: '0.75rem 1.5rem', 
                     fontSize: '0.9rem',
-                    boxShadow: '0 4px 14px rgba(212, 175, 55, 0.3)'
+                    boxShadow: '0 4px 20px rgba(212, 175, 55, 0.25)',
+                    borderRadius: '50px'
                 }}
             >
-              Reserve <ArrowRight size={16} />
+              Reserve <ArrowRight size={16} style={{ marginLeft: '4px' }} />
             </button>
           </div>
 
