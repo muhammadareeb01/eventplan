@@ -7,7 +7,7 @@ import EventCard from '@/components/EventCard';
 import StatsBanner from '@/components/StatsBanner';
 import ClientSeeder from '@/components/ClientSeeder';
 import { eventsData as staticEventsData } from '@/lib/data';
-import { Star, Shield, Zap } from 'lucide-react';
+
 import { client } from '@/sanity/lib/client';
 import { defineQuery } from 'next-sanity';
 
@@ -124,32 +124,7 @@ export default async function Home() {
 
         <StatsBanner />
 
-        {/* Stats / Trust */}
-        <div className="container" style={{ margin: '4rem auto 2rem auto' }}>
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(3, 1fr)', 
-            gap: '1rem', 
-            background: 'rgba(255,255,255,0.02)', 
-            border: '1px solid var(--border)', 
-            borderRadius: '24px', 
-            padding: '2rem' 
-          }}>
-            {[
-              { icon: Star, label: 'Premium Experience', desc: 'Curated vendors & high-end collectibles' },
-              { icon: Shield, label: 'Secure Venue', desc: 'Safe environment for high-value trades' },
-              { icon: Zap, label: 'Instant Booking', desc: 'Reserve your table in seconds' }
-            ].map((stat, i) => (
-              <div key={i} style={{ textAlign: 'center' }}>
-                <div style={{ background: 'rgba(255,255,255,0.05)', width: '48px', height: '48px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1rem auto', color: 'var(--secondary)' }}>
-                  <stat.icon size={24} />
-                </div>
-                <h4 style={{ marginBottom: '0.25rem' }}>{stat.label}</h4>
-                <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>{stat.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
+
 
         {/* Events listing */}
         <section id="events" style={{ padding: '6rem 0' }}>
