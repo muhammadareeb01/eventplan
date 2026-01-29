@@ -87,7 +87,7 @@ export default async function Home() {
                   Please Join Us For The Next Big Event 
                 </span>
                 <h1 style={{ marginBottom: '1.5rem', lineHeight: '1.1' }}>
-                BST Card Show <br />
+                BST Card Shows <br />
           
                 </h1>
                 <p style={{ fontSize: '1.25rem', color: 'var(--text-muted)', marginBottom: '3rem', maxWidth: '500px' }}>
@@ -111,17 +111,11 @@ export default async function Home() {
                   <Image 
                     src="/hero-image.jpeg" 
                     alt="Premium Card Event" 
-                    width={400} 
-                    height={400}
-                    className="hero-video"
-                    style={{ borderRadius: '24px', objectFit: 'cover' }}
+                    width={1000} 
+                    height={1000}
+                    style={{ width: '100%', height: 'auto', borderRadius: '24px' }}
                     priority
                   />
-                  <div style={{ 
-                    position: 'absolute', 
-                    inset: 0, 
-                    background: 'linear-gradient(to top, rgba(5,5,17,0.8) 0%, transparent 50%)' 
-                  }} />
                 </div>
               </div>
             </div>
