@@ -35,7 +35,6 @@ export const tableType = defineType({
       name: 'sold',
       title: 'Sold Quantity',
       type: 'number',
-      readOnly: true,
       initialValue: 0
     }),
   ],
