@@ -112,7 +112,12 @@ export default function EventCard({ event }: { event: any }) {
                <div style={{ color: 'var(--primary)', background: 'rgba(212, 175, 55, 0.1)', padding: '6px', borderRadius: '50%' }}>
                   <Clock size={16} />
               </div>
-              <div style={{ fontSize: '0.9rem', fontWeight: 500 }}>{event.time}</div>
+              <div>
+                  <div style={{ fontSize: '0.9rem', fontWeight: 500 }}>{event.time}</div>
+                  {event.vendorTime && (
+                      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '2px' }}>{event.vendorTime}</div>
+                  )}
+              </div>
             </div>
 
             <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>

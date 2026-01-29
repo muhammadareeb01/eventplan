@@ -25,9 +25,15 @@ export const eventType = defineType({
     }),
     defineField({
       name: 'time',
-      title: 'Time',
+      title: 'Event Duration (Public)',
       type: 'string', 
-      description: 'e.g. 10:00 AM - 5:00 PM'
+      description: 'e.g. 9:00 AM - 2:00 PM'
+    }),
+    defineField({
+      name: 'vendorTime',
+      title: 'Vendor / Setup Time',
+      type: 'string',
+      description: 'e.g. Vendor setup starts at 8:00 AM'
     }),
     defineField({
         name: 'location',
