@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Event Project",
-  description: "A premium Next.js application.",
+  title: "BST Card Shows",
+ 
 };
 
 export default function RootLayout({
