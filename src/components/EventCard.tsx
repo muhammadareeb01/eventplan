@@ -8,10 +8,9 @@ export default function EventCard({ event }: { event: any }) {
   const [showModal, setShowModal] = useState(false);
 
   const handleBookingSubmit = async (data: any) => {
-    // Here we would integrate with Stripe and Firestore
-    alert(`Processing payment of $${data.total} for ${data.quantity} ${data.seatType} seats. In a real app, this redirects to Stripe.`);
-    console.log("Booking Data:", data);
-    setShowModal(false);
+    // Booking successful - Don't close immediately so user sees success message
+    console.log("Booking confirmed for:", data);
+    // setShowModal(false); // Let the modal's internal close button handle this
   };
 
   return (
@@ -33,6 +32,27 @@ export default function EventCard({ event }: { event: any }) {
         )}
         
         <div style={{ marginBottom: '1.5rem' }}>
+          {event.imageUrl && (
+            <div style={{ 
+              position: 'relative', 
+              width: '100%', 
+              height: 'auto', // Changed from fixed 200px
+              aspectRatio: '16/9', // Optional: Enforces aspect ratio if desired, but 'auto' is safer for full visibility. Let's stick to auto height for the image itself or use aspect-ratio with object-fit contain. 
+              // Actually, best to just let it flow or use contain within the fixed box if they want uniformity.
+              // Given "Correct it", usually means "I want to see the whole image". 
+              marginBottom: '1rem', 
+              borderRadius: '8px', 
+              overflow: 'hidden',
+              background: '#000' // Background for any empty space if using contain
+            }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img 
+                src={event.imageUrl} 
+                alt={event.title} 
+                style={{ width: '100%', height: '100%', objectFit: 'contain' }} // Changed cover to contain to prevent cutting
+              />
+            </div>
+          )}
           <div style={{ color: 'var(--primary)', fontWeight: 700, fontSize: '0.875rem', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
             Upcoming Event
           </div>

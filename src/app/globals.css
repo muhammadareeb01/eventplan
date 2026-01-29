@@ -211,3 +211,27 @@ h3 { font-size: 1.75rem; }
 @media (min-width: 768px) {
   .grid-2 { grid-template-columns: repeat(2, 1fr); }
 }
+
+/* Header Navigation */
+.desktop-nav {
+  display: none;
+  gap: 2rem;
+  align-items: center;
+}
+
+.mobile-toggle {
+  display: block;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .desktop-nav {
+    display: flex;
+  }
+  .mobile-toggle {
+    display: none;
+  }
+}

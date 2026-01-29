@@ -1,21 +1,52 @@
-'use client'
-import { useEffect } from 'react';
+import Link from 'next/link';
 import Image from 'next/image';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import EventCard from '@/components/EventCard';
-import { eventsData } from '@/lib/data';
-import { seedEventsIfEmpty } from '@/lib/db';
-import {  Star, Shield, Zap } from 'lucide-react';
+import ClientSeeder from '@/components/ClientSeeder';
+import { eventsData as staticEventsData } from '@/lib/data';
+import { Star, Shield, Zap } from 'lucide-react';
+import { client } from '@/sanity/lib/client';
+import { defineQuery } from 'next-sanity';
 
-export default function Home() {
-  useEffect(() => {
-    // Auto-seed database for the user on first load
-    seedEventsIfEmpty().catch(console.error);
-  }, []);
+const EVENTS_QUERY = defineQuery(`*[_type == "event"] | order(date asc) {
+  _id,
+  name,
+  "description": pt::text(description),
+  date,
+  time,
+  location,
+  "imageUrl": image.asset->url,
+  price
+}`);
+
+export default async function Home() {
+  const eventsFromSanity = await client.fetch(EVENTS_QUERY);
+
+  const events = eventsFromSanity.length > 0 ? eventsFromSanity.map((e: any) => {
+    const rawDescription = e.description || "";
+    const dateObj = new Date(e.date);
+    const dateStr = dateObj.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+    const timeStr = e.time || "10:00 AM - 4:00 PM";
+
+      return {
+          id: e._id,
+          title: e.name,
+          description: rawDescription,
+          date: dateStr,
+          time: timeStr,
+          locationName: e.location || "TBA",
+          locationAddress: e.location || "", 
+          locationCity: "",
+          entryFee: e.price ? `$${e.price}` : "Free",
+          imageUrl: e.imageUrl, // Added image URL
+          featured: false 
+      };
+  }) : staticEventsData;
 
   return (
     <>
+      <ClientSeeder />
       <Header />
       
       <main>
@@ -95,7 +126,7 @@ export default function Home() {
             gap: '1rem', 
             background: 'rgba(255,255,255,0.02)', 
             border: '1px solid var(--border)', 
-            borderRadius: 'var(--radius)', 
+            borderRadius: '24px', 
             padding: '2rem' 
           }}>
             {[
@@ -126,7 +157,7 @@ export default function Home() {
             </div>
 
             <div className="grid-2">
-              {eventsData.map(event => (
+              {events.map((event: any) => (
                 <EventCard key={event.id} event={event} />
               ))}
             </div>
@@ -161,8 +192,8 @@ export default function Home() {
           </div>
         </section>
       </main>
-
       <Footer />
     </>
   );
 }
+

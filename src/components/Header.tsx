@@ -21,11 +21,11 @@ export default function Header() {
       <div className="container" style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '1.5rem', fontWeight: 800 }}>
           <Sparkles className="text-secondary" />
-          <span>Event<span className="text-gradient">Plan</span></span>
+          <span style={{ color: 'white' }}>EventPlan</span>
         </Link>
         
         {/* Simple Nav - Landing Page Only */}
-        <nav className="desktop-nav" style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
+        <nav className="desktop-nav">
           <Link href="#events" style={{ color: 'var(--text-muted)', fontSize: '0.95rem', fontWeight: 500, transition: 'color 0.2s' }}>
             Events
           </Link>
@@ -38,21 +38,10 @@ export default function Header() {
         <button 
           className="mobile-toggle"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          style={{ background: 'none', border: 'none', color: 'white', cursor: 'pointer' }}
         >
           {isMenuOpen ? <X /> : <Menu />}
         </button>
       </div>
-
-      <style jsx>{`
-        .desktop-nav { display: none !important; }
-        .mobile-toggle { display: block; }
-        
-        @media (min-width: 768px) {
-          .desktop-nav { display: flex !important; }
-          .mobile-toggle { display: none; }
-        }
-      `}</style>
     </header>
   );
 }

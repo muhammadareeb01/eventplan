@@ -21,13 +21,7 @@ export default function Footer() {
           </div>
           
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '2rem' }}>
-            <div>
-              <h4 style={{ marginBottom: '1rem' }}>Menu</h4>
-              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.75rem', color: 'var(--text-muted)' }}>
-                <li><a href="#events">Upcoming Shows</a></li>
-                <li><a href="#">Terms & Conditions</a></li>
-              </ul>
-            </div>
+
             <div>
               <h4 style={{ marginBottom: '1rem' }}>Contact</h4>
               <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.75rem', color: 'var(--text-muted)' }}>
