@@ -109,7 +109,7 @@ export default async function Home() {
                   boxShadow: '0 20px 50px -10px rgba(0,0,0,0.5)'
                 }}>
                   <Image 
-                    src="/hero-image.png" 
+                    src="/hero-image.jpeg" 
                     alt="Premium Card Event" 
                     width={800} 
                     height={800}
