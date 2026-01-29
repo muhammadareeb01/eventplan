@@ -25,7 +25,7 @@ const EVENTS_QUERY = defineQuery(`*[_type == "event"] | order(date asc) {
 export default async function Home() {
   const eventsFromSanity = await client.fetch(EVENTS_QUERY);
 
-  const events = eventsFromSanity.length > 0 ? eventsFromSanity.map((e: any) => {
+  const events = eventsFromSanity.map((e: any) => {
     const rawDescription = e.description || "";
     const dateObj = new Date(e.date);
     const dateStr = dateObj.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
@@ -46,7 +46,7 @@ export default async function Home() {
           ticketTypes: e.ticketTypes || [],
           featured: false 
       };
-  }) : staticEventsData;
+  });
 
   return (
     <>
@@ -160,11 +160,18 @@ export default async function Home() {
               <button className="btn btn-outline" style={{ display: 'none' }}>View All</button>
             </div>
 
-            <div className="grid-2">
-              {events.map((event: any) => (
-                <EventCard key={event.id} event={event} />
-              ))}
-            </div>
+            {events.length > 0 ? (
+                <div className="grid-2">
+                  {events.map((event: any) => (
+                    <EventCard key={event.id} event={event} />
+                  ))}
+                </div>
+            ) : (
+                <div style={{ textAlign: 'center', padding: '4rem 0', color: 'var(--text-muted)' }}>
+                    <h3>No upcoming events scheduled at the moment.</h3>
+                    <p>Please check back later!</p>
+                </div>
+            )}
           </div>
         </section>
 
