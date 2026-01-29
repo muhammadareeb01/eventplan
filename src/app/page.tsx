@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -107,14 +108,14 @@ export default async function Home() {
                   border: '1px solid rgba(255,255,255,0.1)',
                   boxShadow: '0 20px 50px -10px rgba(0,0,0,0.5)'
                 }}>
-                  <video 
-                    src="/headerVideo.mp4" 
-                    autoPlay 
-                    loop 
-                    
-                    playsInline
+                  <Image 
+                    src="/hero-image.png" 
+                    alt="Premium Card Event" 
+                    width={800} 
+                    height={800}
                     className="hero-video"
-                    style={{ borderRadius: '24px' }}
+                    style={{ borderRadius: '24px', objectFit: 'cover' }}
+                    priority
                   />
                   <div style={{ 
                     position: 'absolute', 

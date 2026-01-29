@@ -1,4 +1,4 @@
-import { Twitter, Instagram, Facebook, Mail } from 'lucide-react';
+import { Instagram, Facebook, Mail } from 'lucide-react';
 
 export default function Footer() {
   return (
@@ -9,9 +9,9 @@ export default function Footer() {
             <div style={{ marginBottom: '1rem' }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img 
-                src="/logo.jpeg" 
+                src="/logo.png" 
                 alt="EventPlan Logo" 
-                style={{ height: '60px', width: 'auto', borderRadius: '8px' }} 
+                style={{ height: '100px', width: 'auto', borderRadius: '8px' }} 
               />
             </div>
             <p style={{ color: 'var(--text-muted)', lineHeight: '1.6', maxWidth: '400px' }}>
@@ -19,8 +19,17 @@ export default function Footer() {
               Join thousands of collectors for unforgettable experiences.
             </p>
             <div style={{ display: 'flex', gap: '1rem', marginTop: '1.5rem' }}>
-              {[Twitter, Instagram, Facebook].map((Icon, i) => (
-                <a key={i} href="#" style={{ color: 'var(--text-muted)', transition: 'color 0.2s' }}>
+              {[
+                { Icon: Instagram, href: 'https://www.instagram.com/bstcardshows' },
+                { Icon: Facebook, href: 'https://www.facebook.com/profile.php?id=61572845743764' }
+              ].map(({ Icon, href }, i) => (
+                <a 
+                  key={i} 
+                  href={href} 
+                  target={href.startsWith('http') ? '_blank' : undefined}
+                  rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                  style={{ color: 'var(--text-muted)', transition: 'color 0.2s' }}
+                >
                   <Icon size={20} />
                 </a>
               ))}
@@ -33,7 +42,7 @@ export default function Footer() {
               <h4 style={{ marginBottom: '1rem' }}>Contact</h4>
               <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.75rem', color: 'var(--text-muted)' }}>
                 <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <Mail size={16} /> support@eventplan.com
+                  <Mail size={16} /> bstcollect@gmail.com
                 </li>
                 <li>Carpentersville, IL 60110</li>
               </ul>
@@ -42,7 +51,7 @@ export default function Footer() {
         </div>
         
         <div style={{ borderTop: '1px solid var(--border)', marginTop: '3rem', paddingTop: '2rem', textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.875rem' }}>
-          © 2026 EventPlan. All rights reserved.
+          © 2026 BST Card Shows. All rights reserved.
         </div>
       </div>
     </footer>

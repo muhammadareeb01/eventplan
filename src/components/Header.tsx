@@ -22,9 +22,9 @@ export default function Header() {
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img 
-            src="/logo.jpeg" 
+            src="/logo.png" 
             alt="EventPlan Logo" 
-            style={{ height: '50px', width: 'auto', borderRadius: '8px' }} 
+            style={{ height: '60px', width: 'auto', borderRadius: '8px' }} 
           />
         </Link>
         
