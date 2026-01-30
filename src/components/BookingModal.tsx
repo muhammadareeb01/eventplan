@@ -211,12 +211,7 @@ export default function BookingModal({ isOpen, onClose, event, onSubmit }: Booki
                     <span>Tables ({formData.quantity}x)</span>
                     <span>${subtotal}</span>
                 </div>
-                {eventFee > 0 && (
-                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.25rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}>
-                        <span>Entry Fee (Pay at Door)</span>
-                        <span>${eventFee}</span>
-                    </div>
-                )}
+               
                 
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 700, fontSize: '1.1rem', marginTop: '0.5rem', paddingTop: '0.5rem', borderTop: '1px solid var(--border-highlight)' }}>
                    <span>Total</span>
