@@ -41,12 +41,12 @@ export const getEventAvailability = async (eventId: string) => {
         _id,
         title, 
         price, 
-        availableQuantity, 
-        "sold": count(*[_type == "booking" && tableType == ^._id && event._ref == $eventId && status in ["paid", "confirmed"]])
-    }
+        availableQuantity
+    },
+    "bookings": *[_type == "booking" && event._ref == $eventId && status in ["paid", "confirmed"]] { tableType, quantity }
   }`;
 
-  const { tables } = await client.fetch(query, { eventId });
+  const { tables, bookings } = await client.fetch(query, { eventId });
 
   // Key by ID
   const availability: Record<string, { total: number; booked: number; remaining: number; price: number; label: string, tableDocId?: string }> = {};
@@ -59,7 +59,14 @@ export const getEventAvailability = async (eventId: string) => {
       tables.forEach((t: any) => {
           // Use _id as the unique key
           const key = t._id;
-          const sold = t.sold || 0;
+          
+          // Calculate sold quantity for this specific table type
+          const sold = bookings
+            ? bookings
+                .filter((b: any) => b.tableType === key)
+                .reduce((sum: number, b: any) => sum + (b.quantity || 1), 0)
+            : 0;
+
           availability[key] = {
               total: t.availableQuantity,
               booked: sold,
@@ -88,7 +95,7 @@ export const createBooking = async (bookingData: Booking) => {
     // We fetch the table doc AND the current booking count for this event
     const query = `{
        "tableDoc": *[_type == "table" && _id == $tableId][0],
-       "soldCount": count(*[_type == "booking" && tableType == $tableId && event._ref == $eventId && status in ["paid", "confirmed"]])
+       "bookings": *[_type == "booking" && tableType == $tableId && event._ref == $eventId && status in ["paid", "confirmed"]] { quantity }
     }`;
     
     // Safety check: ensure tableId is provided
@@ -96,10 +103,15 @@ export const createBooking = async (bookingData: Booking) => {
         throw new Error("No table selected");
     }
 
-    const { tableDoc, soldCount } = await client.fetch(query, { 
+    const { tableDoc, bookings } = await client.fetch(query, { 
         tableId: bookingData.tableType,
         eventId: bookingData.eventId
     });
+    
+    // Calculate actual sold count by summing quantities
+    const soldCount = bookings 
+        ? bookings.reduce((sum: number, b: any) => sum + (b.quantity || 1), 0)
+        : 0;
 
     console.log("Table document found:", tableDoc ? tableDoc._id : "None");
     console.log("Current Sold Count for Event:", soldCount);

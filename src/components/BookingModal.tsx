@@ -132,7 +132,7 @@ export default function BookingModal({ isOpen, onClose, event, onSubmit }: Booki
          email: '', 
          phone: '', 
          date: event.availableDates ? event.availableDates[0] : event.date, 
-         tableType: 'regular', 
+         tableType: '', 
          quantity: 1 
      });
      onClose();
@@ -299,12 +299,24 @@ export default function BookingModal({ isOpen, onClose, event, onSubmit }: Booki
             <div className="form-group" style={{ marginBottom: 0 }}>
               <label className="form-label" style={{ marginBottom: '0.25rem' }}>Quantity</label>
               <input 
-                type="number" 
+                type="text" 
+                pattern="[0-9]*"
+                inputMode="numeric"
                 className="form-input" 
-                min="1" 
-                max="10" 
-                value={formData.quantity}
-                onChange={e => setFormData({...formData, quantity: parseInt(e.target.value) || 1})}
+                value={formData.quantity || ''}
+                onChange={e => {
+                    const val = e.target.value;
+                    if (val === '') {
+                        setFormData({...formData, quantity: 0});
+                    } else if (/^\d*$/.test(val)) {
+                         setFormData({...formData, quantity: parseInt(val)});
+                    }
+                }}
+                onBlur={() => {
+                     // Auto-correct on blur if needed, or leave it to user to see valid range
+                     if (formData.quantity === 0) setFormData({...formData, quantity: 1});
+                }}
+                placeholder="1"
                 style={{ padding: '0.5rem 1rem' }}
               />
             </div>
