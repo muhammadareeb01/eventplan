@@ -64,11 +64,11 @@ export default function BookingModal({ isOpen, onClose, event, onSubmit }: Booki
             <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', fontSize: '1.5rem' }}>✕</button>
          </div>
          <div className="iframe-section" style={{ width: '100%', minHeight: '600px' }}>
-         <iframe
+          <iframe
             style={{ width: '100%', border: 'none', borderRadius: '10px', padding: '0px', minHeight: '600px' }}
-            id="treasure-embed-profile-anonymous-skunk-a732e9ae"
+            id="treasure-embed-profile-bstcardshows"
             sandbox="allow-same-origin allow-forms allow-scripts allow-popups allow-popups-to-escape-sandbox"
-            src="https://www.ontreasure.com/u/anonymous.skunk.a732e9ae/embed?iframeId=treasure-embed-profile-anonymous-skunk-a732e9ae"
+            src="https://www.ontreasure.com/u/bstcardshows/embed?iframeId=treasure-embed-profile-bstcardshows"
             title="Host Profile"
             loading="lazy"
             allow="fullscreen; payment"
