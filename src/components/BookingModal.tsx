@@ -1,13 +1,14 @@
 "use client";
 
-import { useState, useEffect } from 'react';
-import { Calendar, MapPin, Clock, Loader2, CheckCircle, ArrowLeft } from 'lucide-react';
-import { createBooking, ensureEventExists, getEventAvailability } from '@/lib/db';
-import { loadStripe } from '@stripe/stripe-js';
-import { Elements } from '@stripe/react-stripe-js';
-import CheckoutForm from './CheckoutForm';
+import { useEffect } from 'react'; // Checking if I need other imports, likely not for the embed
+// import { useState, useEffect } from 'react';
+// import { Calendar, MapPin, Clock, Loader2, CheckCircle, ArrowLeft } from 'lucide-react';
+// import { createBooking, ensureEventExists, getEventAvailability } from '@/lib/db';
+// import { loadStripe } from '@stripe/stripe-js';
+// import { Elements } from '@stripe/react-stripe-js';
+// import CheckoutForm from './CheckoutForm';
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
+// const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -17,6 +18,68 @@ interface BookingModalProps {
 }
 
 export default function BookingModal({ isOpen, onClose, event, onSubmit }: BookingModalProps) {
+  // --- NEW EMBEDDED CODE ---
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      if (
+        event.origin === "https://www.ontreasure.com" &&
+        event.data &&
+        typeof event.data === "object" &&
+        event.data.height &&
+        event.data.iframeId
+      ) {
+        const iframe = document.getElementById(event.data.iframeId);
+        if (iframe) {
+          const height = Math.max(parseInt(event.data.height, 10), 10);
+          iframe.style.height = height + "px";
+        }
+      }
+    };
+
+    if (isOpen) {
+        window.addEventListener("message", handleMessage);
+    }
+    
+    return () => {
+      window.removeEventListener("message", handleMessage);
+    };
+  }, [isOpen]);
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div 
+        className="modal-content" 
+        onClick={e => e.stopPropagation()} 
+        style={{ 
+            maxWidth: '1000px', 
+            width: '95%',
+            height: '90vh', // Fixed height for the modal
+            overflowY: 'auto', // Allow scrolling within the modal if the iframe gets very tall
+            padding: '0' 
+        }}
+      >
+         <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '10px 15px', background: 'var(--surface)' }}>
+            <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', fontSize: '1.5rem' }}>✕</button>
+         </div>
+         <div className="iframe-section" style={{ width: '100%', minHeight: '600px' }}>
+          <iframe
+            style={{ width: '100%', border: 'none', borderRadius: '0', padding: '0px', minHeight: '600px' }}
+            id="treasure-embed-tickets-pokemontcg-only-card-show-03082026"
+            sandbox="allow-same-origin allow-forms allow-scripts allow-popups allow-popups-to-escape-sandbox"
+            src="https://www.ontreasure.com/events/pokemontcg-only-card-show-03082026/embed-checkout?embed=true&iframeId=treasure-embed-tickets-pokemontcg-only-card-show-03082026"
+            title="Ticket Booking"
+            loading="lazy"
+            allow="fullscreen; payment"
+          ></iframe>
+        </div>
+      </div>
+    </div>
+  );
+  // --- END NEW EMBEDDED CODE ---
+
+  /*
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
@@ -206,7 +269,7 @@ export default function BookingModal({ isOpen, onClose, event, onSubmit }: Booki
                    <span style={{ color: 'var(--text-muted)' }}>Date</span>
                    <span>{formData.date}</span>
                 </div>
-                {/* Breakdown */}
+                
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.25rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}>
                     <span>Tables ({formData.quantity}x)</span>
                     <span>${subtotal}</span>
@@ -235,7 +298,7 @@ export default function BookingModal({ isOpen, onClose, event, onSubmit }: Booki
               </span>
             </div>
           </div>
-
+ 
           <div className="form-group" style={{ marginBottom: '1rem' }}>
             <label className="form-label" style={{ marginBottom: '0.25rem' }}>Select Date</label>
              <select 
@@ -253,7 +316,7 @@ export default function BookingModal({ isOpen, onClose, event, onSubmit }: Booki
               )}
             </select>
           </div>
-
+ 
           <div className="form-group" style={{ marginBottom: '1rem' }}>
             <label className="form-label" style={{ marginBottom: '0.25rem' }}>Select Table Type</label>
             {Object.keys(tables).length > 0 ? (
@@ -289,7 +352,7 @@ export default function BookingModal({ isOpen, onClose, event, onSubmit }: Booki
                 </div>
             )}
           </div>
-
+ 
           <div className="grid-2" style={{ gap: '1rem', marginBottom: '1rem' }}>
             <div className="form-group" style={{ marginBottom: 0 }}>
               <label className="form-label" style={{ marginBottom: '0.25rem' }}>Quantity</label>
@@ -328,7 +391,7 @@ export default function BookingModal({ isOpen, onClose, event, onSubmit }: Booki
               />
             </div>
           </div>
-
+ 
           <div className="grid-2" style={{ gap: '1rem' }}>
             <div className="form-group" style={{ marginBottom: 0 }}>
               <label className="form-label" style={{ marginBottom: '0.25rem' }}>Email</label>
@@ -355,13 +418,13 @@ export default function BookingModal({ isOpen, onClose, event, onSubmit }: Booki
               />
             </div>
           </div>
-
+ 
           {error && (
             <div style={{ color: '#ef4444', fontSize: '0.875rem', marginTop: '1rem', textAlign: 'center' }}>
               {error}
             </div>
           )}
-
+ 
           <div style={{ 
             marginTop: '1.5rem', 
             padding: '0.75rem 1rem', 
@@ -392,4 +455,5 @@ export default function BookingModal({ isOpen, onClose, event, onSubmit }: Booki
       </div>
     </div>
   );
+  */
 }
