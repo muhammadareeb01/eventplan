@@ -18,7 +18,7 @@ interface BookingModalProps {
 }
 
 export default function BookingModal({ isOpen, onClose, event, onSubmit }: BookingModalProps) {
-  // --- NEW EMBEDDED CODE ---
+  // --- NEW EMBEDDED CODE (HOST PROFILE) ---
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
       if (
@@ -64,12 +64,12 @@ export default function BookingModal({ isOpen, onClose, event, onSubmit }: Booki
             <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', fontSize: '1.5rem' }}>✕</button>
          </div>
          <div className="iframe-section" style={{ width: '100%', minHeight: '600px' }}>
-          <iframe
-            style={{ width: '100%', border: 'none', borderRadius: '0', padding: '0px', minHeight: '600px' }}
-            id="treasure-embed-tickets-pokemontcg-only-card-show-03082026"
+         <iframe
+            style={{ width: '100%', border: 'none', borderRadius: '10px', padding: '0px', minHeight: '600px' }}
+            id="treasure-embed-profile-anonymous-skunk-a732e9ae"
             sandbox="allow-same-origin allow-forms allow-scripts allow-popups allow-popups-to-escape-sandbox"
-            src="https://www.ontreasure.com/events/pokemontcg-only-card-show-03082026/embed-checkout?embed=true&iframeId=treasure-embed-tickets-pokemontcg-only-card-show-03082026"
-            title="Ticket Booking"
+            src="https://www.ontreasure.com/u/anonymous.skunk.a732e9ae/embed?iframeId=treasure-embed-profile-anonymous-skunk-a732e9ae"
+            title="Host Profile"
             loading="lazy"
             allow="fullscreen; payment"
           ></iframe>
